@@ -12,5 +12,11 @@ namespace LIGHTSOUT2
             pole_okno pole_Okno = new pole_okno();
             pole_Okno.Show();
         }
+
+        private void btn_manual_Click(object sender, EventArgs e)
+        {
+            manual_okno manual_Okno = new manual_okno();
+            manual_Okno.Show();
+        }
     }
 }

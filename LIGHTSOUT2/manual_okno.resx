@@ -57,7 +57,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Jak tato hra funguje?
+
+Po kliknutí na tlačítko "Hrát hru" se hráči objeví okno s výběrem velikosti hracího pole. Od nejmenší po největší se také stupňuje obtížnost dané hry, tudíž pole o velikosti 3x3 je nejlehčí a pole o velikosti 7x7 naopak nejtěžší.</value>
+  </data>
+  <data name="richTextBox4.Text" xml:space="preserve">
+    <value>Cílem hry Lights Out je pozhasínat všechna světla. Při kliknutí na dané světlo se změní jeho stav z rozsviceného na zhasnuté či naopak. Takto se změní i stav světel, která jsou nad, pod a vedle vybraného světla.</value>
+  </data>
 </root>

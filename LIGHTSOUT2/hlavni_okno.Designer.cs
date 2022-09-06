@@ -42,6 +42,7 @@
             this.btn_manual.TabIndex = 0;
             this.btn_manual.Text = "Manuál";
             this.btn_manual.UseVisualStyleBackColor = true;
+            this.btn_manual.Click += new System.EventHandler(this.btn_manual_Click);
             // 
             // btn_hrathru
             // 
@@ -64,7 +65,7 @@
             this.lbl_vitej.TabIndex = 2;
             this.lbl_vitej.Text = "Vítej ve hře Lights Out!";
             // 
-            // Form1
+            // hlavni_okno
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,8 +73,8 @@
             this.Controls.Add(this.lbl_vitej);
             this.Controls.Add(this.btn_hrathru);
             this.Controls.Add(this.btn_manual);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "hlavni_okno";
+            this.Text = "Lights Out";
             this.ResumeLayout(false);
             this.PerformLayout();
 

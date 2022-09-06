@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,110 +14,195 @@ namespace LIGHTSOUT2
 {
     public partial class _3x3_okno : Form
     {
+        public Button[,] buttons = new Button[3,3];
+        public int velikost = 3;
+        public bool[,] lights = new bool[3,3];
+
+        public bool[,] solution = new bool[3,3];
+
+        int timeMin, timeSec;
+        int a, b;
+
+        public int moves;
+
         public _3x3_okno()
         {
+            buttons = new Button[3, 3] { {btn_11,btn_12, btn_13 },
+                { btn_21, btn_22, btn_23},
+                { btn_31, btn_32, btn_33} };
+
             InitializeComponent();
+            InicializacePole();
         }
-
-        private bool is_btn1_Clicked = false;
-        private void button1_Click(object sender, EventArgs e)
+        private void _3x3_okno_Load(object sender, EventArgs e)
         {
-            if (is_btn1_Clicked)  
-                btn_1.BackColor = Color.DarkBlue;
-            else
-                btn_1.BackColor = Color.Yellow;
-            is_btn1_Clicked = !is_btn1_Clicked;
 
         }
-        private bool is_btn2_Clicked = false;
-        private void btn_2_Click(object sender, EventArgs e)
-        {
-            if (is_btn2_Clicked)
-                btn_2.BackColor = Color.DarkBlue;
-            else
-                btn_2.BackColor = Color.Yellow;
-            is_btn2_Clicked = !is_btn2_Clicked;
-        }
-        private bool is_btn3_Clicked = false;
-        private void btn_3_Click(object sender, EventArgs e)
-        {
-            if (is_btn3_Clicked)
-                btn_3.BackColor = Color.DarkBlue;
-            else
-                btn_3.BackColor = Color.Yellow;
-            is_btn3_Clicked = !is_btn3_Clicked;
-        }
-        private bool is_btn4_Clicked = false;
-        private void btn_4_Click(object sender, EventArgs e)
-        {
-            if (is_btn4_Clicked)
-                btn_4.BackColor = Color.DarkBlue;
-            else
-                btn_4.BackColor = Color.Yellow;
-            is_btn4_Clicked = !is_btn4_Clicked;
-        }
-        private bool is_btn5_Clicked = false;
-        private void btn_5_Click(object sender, EventArgs e)
-        {
-            if (is_btn5_Clicked)
-                btn_5.BackColor = Color.DarkBlue;
-            else
-                btn_5.BackColor = Color.Yellow;
-            is_btn5_Clicked = !is_btn5_Clicked;
-        }
-        private bool is_btn6_Clicked = false;
-        private void btn_6_Click(object sender, EventArgs e)
-        {
-            if (is_btn6_Clicked)
-                btn_6.BackColor = Color.DarkBlue;
-            else
-                btn_6.BackColor = Color.Yellow;
-            is_btn6_Clicked = !is_btn6_Clicked;
-        }
-        private bool is_btn7_Clicked = false;
-        private void btn_7_Click(object sender, EventArgs e)
-        {
-            if (is_btn7_Clicked)
-                btn_7.BackColor = Color.DarkBlue;
-            else
-                btn_7.BackColor = Color.Yellow;
-            is_btn7_Clicked = !is_btn7_Clicked;
-        }
-        private bool is_btn8_Clicked = false;
-        private void btn_8_Click(object sender, EventArgs e)
-        {
-            if (is_btn8_Clicked)
-                btn_8.BackColor = Color.DarkBlue;
-            else
-                btn_8.BackColor = Color.Yellow;
-            is_btn8_Clicked = !is_btn8_Clicked;
-        }
-        private bool is_btn9_Clicked = false;
-        private void btn_9_Click(object sender, EventArgs e)
-        {
-            if (is_btn9_Clicked)
-                btn_9.BackColor = Color.DarkBlue;
-            else
-                btn_9.BackColor = Color.Yellow;
-            is_btn9_Clicked = !is_btn9_Clicked;
-        }
 
-        Button[,] pole_tlacitek = new Button[3,3];
-        private void UdelejPole()
+        public void InicializacePole()
         {
-            int counter = 1;
-            for (int i = 0; i < 3; i++)
+            buttons = new Button[3, 3] { {btn_11,btn_12, btn_13 },
+                { btn_21, btn_22, btn_23},
+                { btn_31, btn_32, btn_33} };
+
+            for (int i = 0; i < velikost; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < velikost; j++)
                 {
+                    buttons[i, j].Name = "X: " + i + " " + "Y: " + j;
+                    buttons[i, j].BackColor = Color.DarkBlue;
+                    buttons[i, j].Enabled = false;
+                    buttons[i, j].Text = "";
+                    lights[i, j] = false;
+                    solution[i, j] = false;
+                    moves = 0;
+                }
+            }
 
+        }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            int x = int.Parse(button.Name.Split()[1]);
+            int y = int.Parse(button.Name.Split()[3]);
+            toggleLight(buttons[x, y], x, y);
+
+            moves++;
+            moves_count();
+
+            solution[x, y] = !solution[x, y];
+
+            if (solution[x,y] == false)
+                buttons[x, y].Text = "";
+
+            CheckEnd();
+        }
+
+        private void start_Click(object sender, EventArgs e)
+        {
+            InicializacePole();
+            foreach (Button btn in buttons)
+                btn.Enabled = true;
+            ResetTime();
+            moves_count();
+            timer1.Start();
+            Start();
+        }
+
+        private void ResetTime()
+        {
+            timeMin = 0;
+            timeSec = 0;
+            a = timeSec;
+            b = timeMin;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            a = timeSec++;
+            timeMin = 0;
+            if (timeSec == 60)
+            {
+                timeSec = 0;
+                timeMin++;
+                b = timeMin;
+            }
+            txt_time.Text = String.Format("{0}:{1}", b.ToString().PadLeft(2, '0'), a.ToString().PadLeft(2, '0'));
+        }
+
+        public void switchLight (object sender, int x, int y)
+        {
+            lights[x, y] = !lights[x, y];
+
+            if (lights[x, y])
+                buttons[x,y].BackColor = Color.Yellow;
+            else
+                buttons[x,y].BackColor = Color.DarkBlue;
+        }
+
+        public void toggleLight(object sender, int x, int y)
+        {
+            switchLight(buttons[x, y], x, y);
+            
+            if (x < velikost - 1)
+                switchLight(buttons[x+1,y],x+1, y);
+            if (x > 0)
+                switchLight(buttons[x - 1, y],x - 1, y);
+            if (y < velikost - 1)
+                switchLight(buttons[x, y+1], x, y+1);
+            if (y > 0)
+                switchLight(buttons[x, y-1], x, y-1);
+
+        }
+
+        public void Start()
+        {
+            Random rnd = new Random();
+            for (int i = 0; i < rnd.Next(2, velikost*velikost); i++)
+            {
+                int x = rnd.Next(0, velikost - 1);
+                int y = rnd.Next(0, velikost - 1);
+                toggleLight(buttons[x, y], x, y);
+
+                solution[x,y] = !solution[x,y];
+            }
+
+            if (CheckWin() == true)
+            {
+                Start();
+            }
+
+        }
+
+        public bool CheckWin()
+        {
+            for (int i=0; i < velikost;i++)
+            {
+                for (int j=0; j < velikost; j++)
+                {
+                    if (lights[i, j])
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        public void CheckEnd()
+        {
+            if (CheckWin() == true)
+            {
+                timer1.Stop();
+
+                InicializacePole();
+
+                MessageBox.Show("Hra byla úspěšně dokončena!",
+                    "Blahopřejeme!");
+            }
+        }
+
+        private void btn_sol_Click(object sender, EventArgs e)
+        {
+
+            for (int i = 0; i < velikost; i++)
+            {
+                for (int j = 0; j < velikost; j++)
+                {
+                    if (solution[i, j])
+                    {
+                        buttons[i, j].Font = new System.Drawing.Font("Wingdings", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+                        buttons[i, j].ForeColor = System.Drawing.Color.PaleTurquoise;
+                        buttons[i, j].Text = "J".Trim();
+                        buttons[i, j].TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                    }
                 }
             }
         }
 
-        private void btn_hrat_Click(object sender, EventArgs e)
+        private void moves_count()
         {
-
+            lbl_tahy.Text = String.Format("{0}", moves.ToString());
         }
+
     }
 }

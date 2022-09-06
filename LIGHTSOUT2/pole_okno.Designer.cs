@@ -87,7 +87,7 @@
             this.Controls.Add(this.btn_5x5);
             this.Controls.Add(this.btn_3x3);
             this.Name = "pole_okno";
-            this.Text = "Form2";
+            this.Text = "Lights Out";
             this.ResumeLayout(false);
             this.PerformLayout();
 
