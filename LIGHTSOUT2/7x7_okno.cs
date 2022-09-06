@@ -141,7 +141,7 @@ namespace LIGHTSOUT2
         public void Start()
         {
             Random rnd = new Random();
-            for (int i = 0; i < rnd.Next(5, velikost * velikost); i++)
+            for (int i = 0; i < rnd.Next(velikost, velikost * velikost); i++)
             {
                 int x = rnd.Next(0, velikost - 1);
                 int y = rnd.Next(0, velikost - 1);
