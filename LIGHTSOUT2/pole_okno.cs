@@ -17,6 +17,8 @@ namespace LIGHTSOUT2
             InitializeComponent();
         }
 
+        //metody pro otevření dalších oken
+
         private void button1_Click(object sender, EventArgs e)
         {
             _3x3_okno _3X3_okno = new _3x3_okno();

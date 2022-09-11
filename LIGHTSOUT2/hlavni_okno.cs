@@ -7,6 +7,8 @@ namespace LIGHTSOUT2
             InitializeComponent();
         }
 
+        //metody pro otevøení dalších oken
+
         private void btn_hrathru_Click(object sender, EventArgs e)
         {
             pole_okno pole_Okno = new pole_okno();
